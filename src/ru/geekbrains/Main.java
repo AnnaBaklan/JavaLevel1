@@ -119,7 +119,7 @@ public class Main {
             System.out.print(array[i] + " ");
         }
     }
-    private static int[] shiftToOne (int [] arrayOne) {
+    private static void shiftToOne (int [] arrayOne) {
         int p;
         int c;
         c = arrayOne [0];
@@ -134,7 +134,6 @@ public class Main {
             }
 
         }
-        return arrayOne;
     }
 }
 
