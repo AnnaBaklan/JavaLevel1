@@ -26,7 +26,7 @@ public class Main {
         System.out.println();
        // fillRandomArray(shArray);
         System.out.println();
-        shiftArray(shArray, -4);
+        shiftArray(shArray, -404);
         System.out.println();
 
     }
@@ -104,34 +104,37 @@ public class Main {
 
     private static void shiftArray (int[] array, int n) {
 
+        if (n >= array.length || n <= -array.length) n %= array.length;
         if (n<0) n = array.length + n;
-        if (n >= array.length) n %= array.length;
         if (n==0) {
             System.out.println("Нулевой сдвиг");
             return;
         }
-        int p;
-        int c = 0;
-        int [] tempArray = new int [n];
-        for (int i = 0; i < n; i++) {
-            p = array[i];
-            if (i + n >= array.length) tempArray[i+n -array.length] = array[i];
-            for (int j = i; j+n < array.length; j += n){
-                if (j+n >= array.length-n) {
-                    tempArray[j+2*n - array.length] = array[j+n];
-                }
-                c = array[j+n];
-                array[j+n] = p;
-                p = c;
-            }
-        }
 
         for (int i = 0; i < n; i++) {
-            array [i] = tempArray[i];
+            shiftToOne(array);
         }
+
         for (int i = 0; i < array.length; i++) {
             System.out.print(array[i] + " ");
         }
+    }
+    private static int[] shiftToOne (int [] arrayOne) {
+        int p;
+        int c;
+        c = arrayOne [0];
+        for (int i = 0; i < arrayOne.length; i++) {
+            if (i == arrayOne.length - 1) {
+                arrayOne[0] = c;
+            }
+            else {
+                p = arrayOne[i+1];
+                arrayOne[i+1] = c;
+                c = p;
+            }
+
+        }
+        return arrayOne;
     }
 }
 
