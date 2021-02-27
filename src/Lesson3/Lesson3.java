@@ -86,11 +86,9 @@ public class Lesson3 {
             System.out.println("Введите 0 или 1");
             userAnswer = scan.nextInt();
         }
-        if (userAnswer == 0) {
-            playGuessNumber = false;
-        } else {
-            playGuessNumber = true;
-        }
+
+        playGuessNumber = userAnswer != 0;
+
         scan.nextLine();
     }
 }
