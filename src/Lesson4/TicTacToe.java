@@ -16,6 +16,7 @@ public class TicTacToe {
     private static int X;
     private static int Y;
     private enum Mode {HUMAN, COMPUTER};
+    private static int MIN_DOTS_TO_CHECK = 2;
 
     public static void main(String[] args) {
 
@@ -64,7 +65,7 @@ public class TicTacToe {
 
     private static boolean findBestStep() {
 
-        if (dotsToWin < 2) {
+        if (dotsToWin < MIN_DOTS_TO_CHECK) {
             return false;
         } else {
             for (int i = dotsToWin; i > 1; i--) {
