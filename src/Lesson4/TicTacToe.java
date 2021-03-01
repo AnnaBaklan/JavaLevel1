@@ -68,34 +68,30 @@ public class TicTacToe {
             return false;
         } else {
             for (int i = dotsToWin; i > 1; i--) {
-                for (int j = 0; j < fieldSize; j++) {
-                    for (int k = 0; k < fieldSize; k++) {
-                        if (checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, 1, 0) ||
-                                checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, 0, 1) ||
-                                checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, 1, 1) ||
-                                checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, -1, 1))
-
-                        {
-                            return true;
-                        }
-                    }
-
+                if (checkAllLinesForNextStep(i, Mode.COMPUTER)) {
+                    return true;
+                } else if (checkAllLinesForNextStep(i, Mode.HUMAN)) {
+                    return true;
                 }
-                for (int j = 0; j < fieldSize; j++) {
-                    for (int k = 0; k < fieldSize; k++) {
-                        if (checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, 1, 0) ||
-                                checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, 0, 1) ||
-                                checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, 1, 1) ||
-                                checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, -1, 1)) {
-                            return true;
 
-                        }
-                    }
-                }
             }
-            // }
             return false;
         }
+    }
+
+    private static boolean checkAllLinesForNextStep (int stepsToCheck, Mode mode) {
+
+        for (int j = 0; j < fieldSize; j++) {
+            for (int k = 0; k < fieldSize; k++) {
+                if (checkLineForNextStep(computerDot, mode, stepsToCheck, j, k, 1, 0) ||
+                        checkLineForNextStep(computerDot, mode, stepsToCheck, j, k, 0, 1) ||
+                        checkLineForNextStep(computerDot, mode, stepsToCheck, j, k, 1, 1) ||
+                        checkLineForNextStep(computerDot, mode, stepsToCheck, j, k, -1, 1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static boolean checkLineForNextStep (char dotSymbolToSet, Mode mode, int stepsToCheck, int x, int y, int dx, int dy) {
