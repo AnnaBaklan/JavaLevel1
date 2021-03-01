@@ -104,7 +104,7 @@ public class TicTacToe {
             } else if (mode == Mode.HUMAN && playField[x][y] == computerDot) {
                 return false;
             } else if (playField[x][y] == emptyDot && emptyFields <= dotsToWin - stepsToCheck) {
-                emptyFields ++;
+                emptyFields++;
                 x1[emptyFields - 1] = x;
                 y1[emptyFields - 1] = y;
             } else if (playField[x][y] == emptyDot && emptyFields > dotsToWin - stepsToCheck) {
