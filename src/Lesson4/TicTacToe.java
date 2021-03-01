@@ -18,8 +18,10 @@ public class TicTacToe {
     private enum Mode {HUMAN, COMPUTER};
 
     public static void main(String[] args) {
+
         initMap();
         printMap();
+
         while(true){
             humanStep();
             printMap();
@@ -48,8 +50,6 @@ public class TicTacToe {
     private static void computerStep() {
         if (findBestStep()) {
             return;
-        } else if (findSecondBestStep(humanDot, computerDot)) {
-            return;
         } else  {
                 do {
                     X = random.nextInt(fieldSize);
@@ -59,244 +59,76 @@ public class TicTacToe {
             }
     }
 
+
+
+
     private static boolean findBestStep() {
 
         if (dotsToWin < 2) {
             return false;
         } else {
-            for (int i = dotsToWin; i > 2; i--) {
-                if (findBestWay(computerDot, computerDot, i)) {
-                    return true;
-                } else if (findBestWay(humanDot, computerDot, i)) {
-                    return true;
+            for (int i = dotsToWin; i > 1; i--) {
+                for (int j = 0; j < fieldSize; j++) {
+                    for (int k = 0; k < fieldSize; k++) {
+                        if (checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, 1, 0) ||
+                                checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, 0, 1) ||
+                                checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, 1, 1) ||
+                                checkLineForNextStep(computerDot, Mode.COMPUTER, i, j, k, -1, 1))
+
+                        {
+                            return true;
+                        }
+                    }
+
+                }
+                for (int j = 0; j < fieldSize; j++) {
+                    for (int k = 0; k < fieldSize; k++) {
+                        if (checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, 1, 0) ||
+                                checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, 0, 1) ||
+                                checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, 1, 1) ||
+                                checkLineForNextStep(computerDot, Mode.HUMAN, i, j, k, -1, 1)) {
+                            return true;
+
+                        }
+                    }
                 }
             }
+            // }
+            return false;
         }
-        return false;
     }
 
-    private static boolean findBestWay(char dotSymbolToFind, char dotSymbolToSet, int stepsToCheck) {
-        int x1 = 0;
-        int y1 = 0;
+    private static boolean checkLineForNextStep (char dotSymbolToSet, Mode mode, int stepsToCheck, int x, int y, int dx, int dy) {
+        if ((x + dotsToWin*dx) > fieldSize || (y + dotsToWin*dy) > fieldSize || (x + (dotsToWin-1)*dx) < 0 || (y + (dotsToWin-1)*dy) < 0 ) {
+            return false;
+        }
         int emptyFields = 0;
-        if (stepsToCheck > 1) {
-            for (int i = 0; i < fieldSize; i++) {
-                for (int j = 0; j < fieldSize; j++) {
-                    if (playField[i][j] == dotSymbolToFind) {
-                        if (i + stepsToCheck - 1 < fieldSize) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i + k][j] != dotSymbolToFind && k < stepsToCheck - 1) {
-                                    if (emptyFields == 0 && playField[i + k][j] == emptyDot) {
-                                        x1 = i + k;
-                                        y1 = j;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i + k][j] == emptyDot  && emptyFields == 0) {
-                                    playField[i + k][j] = dotSymbolToSet;
-                                    return true;
-                                } else if (k == stepsToCheck - 1 && playField[i + k][j] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-
-                                }
-                            }
-                            emptyFields = 0;
-                        }
-                        if (i-stepsToCheck + 1 >= 0) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i - k][j] != dotSymbolToFind && k < stepsToCheck - 1) {
-                                    if (emptyFields == 0 && playField[i - k][j] == emptyDot) {
-                                        x1 = i - k;
-                                        y1 = j;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i - k][j] == emptyDot && emptyFields == 0) {
-                                    playField[i - k][j] = dotSymbolToSet;
-                                    return true;
-                                } else if (k == stepsToCheck - 1 && playField[i - k][j] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-                                }
-                            }
-
-                            emptyFields = 0;
-                        }
-                        if (j + stepsToCheck - 1 < fieldSize) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i][j + k] != dotSymbolToFind && k < stepsToCheck - 1) {
-                                    if (emptyFields == 0 && playField[i][j+ k] == emptyDot) {
-                                        x1 = i;
-                                        y1 = j + k;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i][j + k] == emptyDot && emptyFields == 0) {
-                                    playField[i][j + k] = dotSymbolToSet;
-                                    return true;
-                                } else if (k == stepsToCheck - 1 && playField[i][j + k] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-                                }
-                            }
-                            emptyFields = 0;
-                        }
-                        if (j - stepsToCheck + 1 >= 0) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i][j-k] != dotSymbolToFind && k < stepsToCheck - 1){
-                                    if (emptyFields == 0 && playField[i][j-k] == emptyDot) {
-                                        x1 = i;
-                                        y1 = j - k;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i][j-k] == emptyDot && emptyFields == 0) {
-                                    playField[i][j-k] = dotSymbolToSet;
-                                    return true;
-                                }  else if (k == stepsToCheck - 1 && playField[i][j - k] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-                                }
-                            }
-                            emptyFields = 0;
-                        }
-                        if (i + stepsToCheck - 1 < fieldSize && j+stepsToCheck - 1 < fieldSize) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i+k][j+k] != dotSymbolToFind && k < stepsToCheck - 1){
-                                    if (emptyFields == 0 && playField[i+k][j+k] == emptyDot) {
-                                        x1 = i + k;
-                                        y1 = j + k;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i+k][j+k] == emptyDot && emptyFields == 0) {
-                                    playField[i+k][j+k] = dotSymbolToSet;
-                                    return true;
-                                } else if (k == stepsToCheck - 1 && playField[i+k][j+k] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-                                }
-                            }
-                            emptyFields = 0;
-                        }
-                        if (i - stepsToCheck + 1 >= 0 && j - stepsToCheck + 1 >= 0) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i-k][j-k] != dotSymbolToFind && k < stepsToCheck - 1){
-                                    if (emptyFields == 0 && playField[i-k][j-k] == emptyDot) {
-                                        x1 = i - k;
-                                        y1 = j - k;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i-k][j-k] == emptyDot && emptyFields == 0) {
-                                    playField[i-k][j-k] = dotSymbolToSet;
-                                    return true;
-                                } else if (k == stepsToCheck - 1 && playField[i-k][j-k] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-                                }
-                            }
-                            emptyFields = 0;
-                        }
-                        if (i - stepsToCheck + 1 >= 0 && j + stepsToCheck - 1 < fieldSize) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i-k][j+k] != dotSymbolToFind && k < stepsToCheck - 1){
-                                    if (emptyFields == 0 && playField[i-k][j+k] == emptyDot) {
-                                        x1 = i - k;
-                                        y1 = j + k;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i-k][j+k] == emptyDot && emptyFields == 0) {
-                                    playField[i-k][j+k] = dotSymbolToSet;
-                                    return true;
-                                } else if (k == stepsToCheck - 1 && playField[i-k][j+k] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-                                }
-                            }
-                            emptyFields = 0;
-                        }
-                        if (j - stepsToCheck + 1 >= 0 && i + stepsToCheck - 1 < fieldSize) {
-                            for (int k = 1; k <= stepsToCheck - 1; k++) {
-                                if (playField[i+k][j-k] != dotSymbolToFind && k < stepsToCheck - 1){
-                                    if (emptyFields == 0 && playField[i+k][j-k] == emptyDot) {
-                                        x1 = i + k;
-                                        y1 = j - k;
-                                        emptyFields += 1;
-                                    } else {
-                                        break;
-                                    }
-                                } else if (k == stepsToCheck - 1 && playField[i+k][j-k] == emptyDot && emptyFields == 0) {
-                                    playField[i+k][j-k] = dotSymbolToSet;
-                                    return true;
-                                } else if (k == stepsToCheck - 1 && playField[i+k][j-k] == dotSymbolToFind && emptyFields == 1) {
-                                    playField[x1][y1] = dotSymbolToSet;
-                                    return true;
-                                }
-                            }
-                            emptyFields = 0;
-                        }
-                    }
-
-                }
-
+        int [] x1 = new int [dotsToWin];
+        int [] y1 = new int [dotsToWin];
+        for (int i = 0; i < dotsToWin; i++) {
+            if (mode == Mode.COMPUTER && playField[x][y] == humanDot) {
+                return false;
+            } else if (mode == Mode.HUMAN && playField[x][y] == computerDot){
+                return false;
+            } else if (playField[x][y] == emptyDot && emptyFields <= dotsToWin - stepsToCheck) {
+                emptyFields += 1;
+                x1[emptyFields-1] = x;
+                y1[emptyFields-1] = y;
+            } else if (playField[x][y] == emptyDot && emptyFields > dotsToWin - stepsToCheck) {
+                return false;
             }
+            x+=dx;
+            y+=dy;
+        }
+        if (emptyFields > 0)  {
+            int p = emptyFields == 1 ? 0 : random.nextInt(emptyFields - 1);
+            playField [x1[p]][y1[p]] = dotSymbolToSet;
+            return true;
         }
         return false;
     }
 
-    private static boolean findSecondBestStep (char enemyDotSymbol, char dotSymbolToSet) {
-        int wayToCheck = random.nextInt(4);
-        if (wayToCheck == 0) {
-            for (int i = 0; i < fieldSize; i++) {
-                for (int j = 0; j < fieldSize; j++) {
-                    if (playField[i][j] == emptyDot && findDotinLine(dotSymbolToSet, i, j) && !findDotinLine(enemyDotSymbol, i, j)) {
-                        playField[i][j] = dotSymbolToSet;
-                        return true;
-                    }
-                }
 
-            }
-        } else if (wayToCheck == 1) {
-            for (int i = 0; i < fieldSize; i++) {
-                for (int j = fieldSize-1; j < 0; j--) {
-                    if (playField[i][j] == emptyDot && findDotinLine(dotSymbolToSet, i, j) && !findDotinLine(enemyDotSymbol, i, j)) {
-                        playField[i][j] = dotSymbolToSet;
-                        return true;
-                    }
-                }
-
-            }
-        } else if (wayToCheck == 2) {
-            for (int i = fieldSize-1; i < 0; i--) {
-                for  (int j = 0; j < fieldSize; j++) {
-                    if (playField[i][j] == emptyDot && findDotinLine(dotSymbolToSet, i, j) && !findDotinLine(enemyDotSymbol, i, j)) {
-                        playField[i][j] = dotSymbolToSet;
-                        return true;
-                    }
-                }
-            }
-        } else {
-            for (int i = fieldSize-1; i < 0; i--) {
-                for  (int j = fieldSize-1; j < 0; j--) {
-                    if (playField[i][j] == emptyDot && findDotinLine(dotSymbolToSet, i, j) && !findDotinLine(enemyDotSymbol, i, j)) {
-                        playField[i][j] = dotSymbolToSet;
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
     private static boolean checkWin(char DotSymbol) {
         for (int i = 0; i < fieldSize; i++) {
@@ -313,7 +145,7 @@ public class TicTacToe {
     }
 
     private static boolean checkLine(char dotSymbol, int x, int y, byte dx, byte dy) {
-        if ((x + dotsToWin*dx) > fieldSize || (y + dotsToWin*dy) > fieldSize || (x + dotsToWin*dx) < 0 || (y + dotsToWin*dy) < 0 ) {
+        if ((x + dotsToWin*dx) > fieldSize || (y + dotsToWin*dy) > fieldSize || (x + (dotsToWin-1)*dx) < 0 || (y + (dotsToWin-1)*dy) < 0 ) {
             return false;
         }
         for (int i = 0; i < dotsToWin; i++) {
@@ -357,65 +189,11 @@ public class TicTacToe {
                 System.out.println("Ячейка уже занята. Пожалуйста, выберите другую");
             }
             return false;
-        }
-
-         else if (mode == Mode.COMPUTER && DotsExist(Mode.COMPUTER)) {
-            return findDotinLine(computerDot, X, Y);
-
-        } else if (mode == Mode.COMPUTER && DotsExist(Mode.HUMAN)) {
-            return findDotinLine(humanDot, X, Y);
         }   else {
             return true;
         }
     }
 
-    private static boolean findDotinLine (char dotSymbol, int x, int y) {
-        for (int i = 0; i < fieldSize; i++) {
-            if (playField[i][y] == dotSymbol && (i - x < dotsToWin || i + x < dotsToWin)) {
-                return true;
-            }
-            if (playField[x][i] == dotSymbol && (i - y < dotsToWin || i + y < dotsToWin)) {
-                return true;
-            }
-            if (x + i < fieldSize && y + i < fieldSize) {
-                if (playField[x + i][y + i] == dotSymbol && (i < dotsToWin)) {
-                    return true;
-                }
-            }
-            if (x - i >= 0 && y - i >= 0) {
-                if (playField[x - i][y - i] == dotSymbol && (i < dotsToWin)) {
-                    return true;
-                }
-            }
-            if (x + i < fieldSize && y - i >= 0) {
-                if (playField[x + i][y - i] == dotSymbol && (i < dotsToWin)) {
-                    return true;
-                }
-            }
-            if (x - i >= 0 && y + i < fieldSize) {
-                if (playField[x - i][y + i] == dotSymbol && (i < dotsToWin)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-
-    private static boolean DotsExist (Mode mode) {
-        for (int i = 0; i < fieldSize; i++) {
-            for (int j = 0; j < fieldSize; j++) {
-                if (mode== Mode.HUMAN && playField[i][j] == humanDot) {
-                    return true;
-                }
-                if (mode== Mode.COMPUTER && playField[i][j] == computerDot) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     private static void printMap() {
         for (int i = 0; i <= fieldSize; i++) {
