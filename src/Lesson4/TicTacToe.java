@@ -8,7 +8,7 @@ public class TicTacToe {
     private static Scanner scan = new Scanner(System.in);
     private static Random random = new Random();
     private static int fieldSize = 5;
-    private static int dotsToWin = 3;
+    private static int dotsToWin = 5;
     private static char[][] playField = new char[fieldSize][fieldSize];
     private static char emptyDot = '*';
     private static char humanDot = 'X';
@@ -301,58 +301,30 @@ public class TicTacToe {
     private static boolean checkWin(char DotSymbol) {
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
-                if (playField[i][j] == DotSymbol) {
-                    if (i+dotsToWin-1 < fieldSize) {
-                        for (int k = 1; k <= dotsToWin-1; k++) {
-                            if (playField[i+k][j] != DotSymbol){
-                                break;
-                            } else if (k == dotsToWin-1) {
-                                return true;
-                            }
-                        }
-                    }
-                    if (j+dotsToWin-1 < fieldSize) {
-                        for (int k = 1; k <= dotsToWin-1; k++) {
-                            if (playField[i][j+k] != DotSymbol){
-                                break;
-                            } else if (k == dotsToWin-1) {
-                                return true;
-                            }
-                        }
-                    }
-                    if (i+dotsToWin-1 < fieldSize && j+dotsToWin-1 < fieldSize) {
-                        for (int k = 1; k <= dotsToWin-1; k++) {
-                            if (playField[i+k][j+k] != DotSymbol){
-                                break;
-                            } else if (k == dotsToWin-1) {
-                                return true;
-                            }
-                        }
-                    }
-                    if (i-dotsToWin+1 >= 0 && j+dotsToWin-1 < fieldSize) {
-                        for (int k = 1; k <= dotsToWin-1; k++) {
-                            if (playField[i-k][j+k] != DotSymbol){
-                               break;
-                            } else if (k == dotsToWin-1) {
-                                return true;
-                            }
-                        }
-                    }
-                    if (j-dotsToWin+1 >= 0 && i+dotsToWin-1 < fieldSize) {
-                        for (int k = 1; k <= dotsToWin-1; k++) {
-                            if (playField[i+k][j-k] != DotSymbol){
-                                break;
-                            } else if (k == dotsToWin-1) {
-                                return true;
-                            }
-                        }
+                if (playField[i][j] == DotSymbol && (checkLine(DotSymbol, i, j, (byte)1, (byte)0) ||
+                        checkLine(DotSymbol, i, j, (byte)0, (byte)1)||
+                        checkLine(DotSymbol, i, j, (byte)1, (byte)1)||
+                        checkLine(DotSymbol, i, j, (byte)-1, (byte)1))) {
+                        return true;
                     }
                 }
-
             }
-
-        }
         return false;
+    }
+
+    private static boolean checkLine(char dotSymbol, int x, int y, byte dx, byte dy) {
+        if ((x + dotsToWin*dx) > fieldSize || (y + dotsToWin*dy) > fieldSize || (x + dotsToWin*dx) < 0 || (y + dotsToWin*dy) < 0 ) {
+            return false;
+        }
+        for (int i = 0; i < dotsToWin; i++) {
+            if (playField[x][y] != dotSymbol) {
+                return false;
+            }
+            x += dx;
+            y += dy;
+        }
+        return true;
+
     }
 
     private static boolean fieldIsFull() {
