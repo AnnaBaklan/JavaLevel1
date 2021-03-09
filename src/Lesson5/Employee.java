@@ -16,7 +16,7 @@ public class Employee {
     private Matcher matcher;
     private static final int MIN_AGE = 14;
 
-    Employee (String fullName, String email, String phone, int salary, int age) {
+    public Employee (String fullName, String email, String phone, int salary, int age) {
         setFullName(fullName);
         setEmail(email);
         setPhone(phone);
