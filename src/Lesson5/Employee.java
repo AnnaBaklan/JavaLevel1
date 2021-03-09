@@ -5,6 +5,7 @@ import com.sun.org.apache.xml.internal.utils.WrongParserException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Employee {
 
     private String fullName;
@@ -35,7 +36,7 @@ public class Employee {
 
    public void setFullName(String fullName) {
        if (fullName.isEmpty()) {
-           throw new NullPointerException("FullName should be filled");
+           throw new IllegalArgumentException("FullName should be filled");
        }
        this.fullName = fullName;
    }
@@ -51,7 +52,7 @@ public class Employee {
         matcher = pattern.matcher(email);
 
         if (!matcher.matches()) {
-            throw new WrongParserException("Email "+ email + " for " + this.fullName + " is incorrect");
+            throw new RegularExpressionException("Email "+ email + " for " + this.fullName + " is incorrect", emailRegExp);
         }
         this.email = email;
     }
@@ -65,7 +66,7 @@ public class Employee {
         matcher = pattern.matcher(phone);
 
         if (!matcher.matches()) {
-            throw new WrongParserException("Phone "+ phone + " for " + this.fullName + " is incorrect");
+            throw new RegularExpressionException("Phone "+ phone + " for " + this.fullName + " is incorrect", phoneRegExp);
         }
         this.phone = phone;
     }
@@ -84,3 +85,5 @@ public class Employee {
         this.age = age;
     }
 }
+
+
