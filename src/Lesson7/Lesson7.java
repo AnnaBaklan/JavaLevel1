@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Lesson7 {
 
-    private static final int CATS_COUNT = 5;
     public static void main(String[] args) {
 
         List<Cat> cats = new ArrayList<Cat>();
