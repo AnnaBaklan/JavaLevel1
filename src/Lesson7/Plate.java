@@ -20,11 +20,7 @@ public class Plate {
     }
 
     public boolean decreaseFood(int amount) {
-        if (amount > food) {
-            return false;
-        } else if (amount == 0) {
-            return false;
-        } else if (amount < 0) {
+        if (amount > food || amount <= 0) {
             return false;
         }
         food -= amount;
