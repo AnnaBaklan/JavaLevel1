@@ -7,19 +7,24 @@ public class TicTacToe {
 
     private static Scanner scan = new Scanner(System.in);
     private static Random random = new Random();
-    private static final int fieldSize = 5;
-    private static final int dotsToWin = 5;
-    private static final char[][] playField = new char[fieldSize][fieldSize];
+    private static int fieldSize;
+    private static final int dotsToWin = 3;
+    private static char[][] playField;
     private static final char emptyDot = '*';
-    private static final char humanDot = 'X';
-    private static final char computerDot = 'O';
+    private static char humanDot = 'X';
+    private static char computerDot = 'O';
+    private  static char[] dotSymbols = {humanDot, computerDot};
+    private static final int MIN_FIELD_SIZE = 2;
 
     private enum Mode {HUMAN, COMPUTER}
 
     ;
     private static int MIN_DOTS_TO_CHECK = 2;
 
-    public static void main(String[] args) {
+    public TicTacToe (int userFieldSize, char userDot) {
+
+        setFieldSize(userFieldSize);
+        setDotSymbols(userDot);
 
         initMap();
         printMap();
@@ -218,5 +223,33 @@ public class TicTacToe {
             }
         }
     }
+
+    public static char[] getAvailableDotSymbols () {
+        return dotSymbols;
+    }
+
+    public static boolean checkFieldSize (int fieldSize) {
+        if (fieldSize < MIN_FIELD_SIZE) {
+            return false;
+        }
+        return true;
+    }
+
+    public static int getFieldSize() {
+        return fieldSize;
+    }
+
+    public static void setFieldSize(int userFieldSize) {
+        fieldSize = userFieldSize;
+        playField = new char[fieldSize][fieldSize];
+    }
+
+    public static void setDotSymbols(char userDotSymbol) {
+        if (humanDot != userDotSymbol) {
+            computerDot = humanDot;
+            humanDot = userDotSymbol;
+        }
+    }
+
 
 }
