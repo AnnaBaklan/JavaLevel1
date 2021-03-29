@@ -8,6 +8,7 @@ public class ErrorWindow extends JFrame {
         setTitle("Error!");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         JLabel errorLable = new JLabel(errorMessage);
+        errorLable.setHorizontalAlignment(SwingConstants.CENTER);
         add (errorLable);
         setVisible(true);
     }
