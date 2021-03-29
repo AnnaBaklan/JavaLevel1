@@ -62,10 +62,8 @@ public class ParameterWindow extends JFrame {
                if(checkParameters())  {
                    for (JRadioButton button : dotSymbolChoiceList) {
                        if (button.isSelected()) {
-                           game.setDotSymbols(button.getText().charAt(0));
-                           game.setFieldSize(Integer.parseInt(fieldSizeFrame.getText()));
                            setVisible(false);
-                           game.play();
+                           game.play(Integer.parseInt(fieldSizeFrame.getText()), button.getText().charAt(0));
                        }
                    }
 

@@ -22,7 +22,10 @@ public class TicTacToe {
     private static int MIN_DOTS_TO_CHECK = 2;
 
 
-    public void play () {
+    public void play (int userFieldSize, char userDotSymbol) {
+
+        setFieldSize(userFieldSize);
+        setDotSymbols(userDotSymbol);
 
         initMap();
         printMap();
@@ -231,10 +234,6 @@ public class TicTacToe {
             return false;
         }
         return true;
-    }
-
-    public int getFieldSize() {
-        return fieldSize;
     }
 
     public void setFieldSize(int userFieldSize) {
