@@ -1,6 +1,7 @@
 package Lesson4;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,6 +52,7 @@ public class ParameterWindow extends JFrame {
         add(dotSymbolChoicePanel, BorderLayout.CENTER);
 
         JPanel playButtonField = new JPanel(new BorderLayout());
+        playButtonField.setBorder(new EmptyBorder(10, 10, 10, 10));
         final JButton playButton = new JButton("Играть!");
         playButtonField.add(playButton, BorderLayout.LINE_END);
         add (playButtonField, BorderLayout.SOUTH);
