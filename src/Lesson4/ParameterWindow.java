@@ -17,7 +17,7 @@ public class ParameterWindow extends JFrame {
 
 
     public ParameterWindow() {
-        setBounds(300, 300, 500, 500);
+        setBounds(300, 300, 500, 200);
         setTitle("Tic Tac Toe parameters");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,8 +50,10 @@ public class ParameterWindow extends JFrame {
         dotSymbolChoicePanel.setBounds(60, 20, 300, 120);
         add(dotSymbolChoicePanel, BorderLayout.CENTER);
 
+        JPanel playButtonField = new JPanel(new BorderLayout());
         final JButton playButton = new JButton("Играть!");
-        add(playButton, BorderLayout.SOUTH);
+        playButtonField.add(playButton, BorderLayout.LINE_END);
+        add (playButtonField, BorderLayout.SOUTH);
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
