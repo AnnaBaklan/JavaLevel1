@@ -14,7 +14,7 @@ public class TicTacToe {
     private static char humanDot = 'X';
     private static char computerDot = 'O';
     private  static char[] dotSymbols = {humanDot, computerDot};
-    private static final int MIN_FIELD_SIZE = 2;
+    private static final int MIN_FIELD_SIZE = 3;
 
     private enum Mode {HUMAN, COMPUTER}
 
@@ -249,6 +249,10 @@ public class TicTacToe {
             computerDot = humanDot;
             humanDot = userDotSymbol;
         }
+    }
+
+    public static int getMinFieldSize () {
+        return MIN_FIELD_SIZE;
     }
 
 

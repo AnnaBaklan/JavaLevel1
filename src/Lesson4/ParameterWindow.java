@@ -83,7 +83,7 @@ public class ParameterWindow extends JFrame {
             return false;
         }
         if (!TicTacToe.checkFieldSize(fieldSize)) {
-            new ErrorWindow("Размер поля должен быть больше 1");
+            new ErrorWindow("Размер поля должен быть не меньше " + TicTacToe.getMinFieldSize());
             fieldSizeFrame.setText("");
             return false;
         }
