@@ -17,7 +17,7 @@ public class ParameterWindow extends JFrame {
     private static  ButtonGroup dotSymbolChoiceGroup = new ButtonGroup();
 
 
-    public ParameterWindow() {
+    public ParameterWindow(final TicTacToe game) {
         setBounds(300, 300, 500, 200);
         setTitle("Tic Tac Toe parameters");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -62,22 +62,20 @@ public class ParameterWindow extends JFrame {
                if(checkParameters())  {
                    for (JRadioButton button : dotSymbolChoiceList) {
                        if (button.isSelected()) {
-                           char userChatDot = button.getText().charAt(0);
+                           game.setDotSymbols(button.getText().charAt(0));
+                           game.setFieldSize(Integer.parseInt(fieldSizeFrame.getText()));
                            setVisible(false);
-                           new TicTacToe(Integer.parseInt(fieldSizeFrame.getText()), userChatDot);
+                           game.play();
                        }
                    }
 
                }
             }
         });
-
-
-
         setVisible(true);
     }
 
-    private static boolean checkParameters () {
+    private boolean checkParameters () {
         int fieldSize;
         try {
             fieldSize = Integer.parseInt(fieldSizeFrame.getText());

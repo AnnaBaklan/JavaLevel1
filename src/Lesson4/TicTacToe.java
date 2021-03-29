@@ -7,13 +7,13 @@ public class TicTacToe {
 
     private static Scanner scan = new Scanner(System.in);
     private static Random random = new Random();
-    private static int fieldSize;
+    private int fieldSize;
     private static final int dotsToWin = 3;
     private static char[][] playField;
     private static final char emptyDot = '*';
-    private static char humanDot = 'X';
-    private static char computerDot = 'O';
-    private  static char[] dotSymbols = {humanDot, computerDot};
+    private char humanDot = 'X';
+    private char computerDot = 'O';
+    private static char[] dotSymbols = {'X', 'O'};
     private static final int MIN_FIELD_SIZE = 3;
 
     private enum Mode {HUMAN, COMPUTER}
@@ -21,10 +21,8 @@ public class TicTacToe {
     ;
     private static int MIN_DOTS_TO_CHECK = 2;
 
-    public TicTacToe (int userFieldSize, char userDot) {
 
-        setFieldSize(userFieldSize);
-        setDotSymbols(userDot);
+    public void play () {
 
         initMap();
         printMap();
@@ -54,7 +52,7 @@ public class TicTacToe {
         }
     }
 
-    private static void computerStep() {
+    private void computerStep() {
         if (!findBestStep()) {
             int x;
             int y;
@@ -67,7 +65,7 @@ public class TicTacToe {
     }
 
 
-    private static boolean findBestStep() {
+    private boolean findBestStep() {
 
         if (dotsToWin < MIN_DOTS_TO_CHECK) {
             return false;
@@ -81,7 +79,7 @@ public class TicTacToe {
         }
     }
 
-    private static boolean checkAllLinesForNextStep(int stepsToCheck, Mode mode) {
+    private boolean checkAllLinesForNextStep(int stepsToCheck, Mode mode) {
 
         for (int j = 0; j < fieldSize; j++) {
             for (int k = 0; k < fieldSize; k++) {
@@ -96,7 +94,7 @@ public class TicTacToe {
         return false;
     }
 
-    private static boolean checkLineForNextStep(char dotSymbolToSet, Mode mode, int stepsToCheck, int x, int y, int dx, int dy) {
+    private boolean checkLineForNextStep(char dotSymbolToSet, Mode mode, int stepsToCheck, int x, int y, int dx, int dy) {
         if (checkBoundary(x, y, dx, dy)) {
             int emptyFields = 0;
             int[] x1 = new int[dotsToWin];
@@ -122,7 +120,7 @@ public class TicTacToe {
         return false;
     }
 
-    private static boolean foundBreakDot (Mode mode, char currentDot) {
+    private boolean foundBreakDot (Mode mode, char currentDot) {
         if ((mode == Mode.HUMAN && currentDot == computerDot) ||(mode == Mode.COMPUTER && currentDot == humanDot)) {
             return false;
         }
@@ -130,7 +128,7 @@ public class TicTacToe {
     }
 
 
-    private static boolean checkWin(char dotSymbol) {
+    private boolean checkWin(char dotSymbol) {
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
                 if (playField[i][j] == dotSymbol && (checkLine(dotSymbol, i, j, 1, 0) ||
@@ -144,7 +142,7 @@ public class TicTacToe {
         return false;
     }
 
-    private static boolean checkLine(char dotSymbol, int x, int y, int dx, int dy) {
+    private boolean checkLine(char dotSymbol, int x, int y, int dx, int dy) {
         if (checkBoundary(x, y, dx, dy)) {
             for (int i = 0; i < dotsToWin; i++) {
                 if (playField[x][y] != dotSymbol) {
@@ -158,13 +156,13 @@ public class TicTacToe {
        return false;
     }
 
-    private static boolean checkBoundary (int x, int y, int dx, int dy) {
+    private boolean checkBoundary (int x, int y, int dx, int dy) {
         if ((x + dotsToWin * dx) > fieldSize || (y + dotsToWin * dy) > fieldSize || (x + (dotsToWin - 1) * dx) < 0 || (y + (dotsToWin - 1) * dy) < 0) {
             return false;
         } else return true;
     }
 
-    private static boolean fieldIsFull() {
+    private boolean fieldIsFull() {
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
                 if (playField[i][j] == emptyDot) {
@@ -176,7 +174,7 @@ public class TicTacToe {
     }
 
 
-    private static void humanStep() {
+    private void humanStep() {
         System.out.println("Введите координаты в формате X Y:");
         int x;
         int y;
@@ -187,7 +185,7 @@ public class TicTacToe {
         playField[x][y] = humanDot;
     }
 
-    private static boolean checkXY(int x, int y, Mode mode) {
+    private boolean checkXY(int x, int y, Mode mode) {
         if (x < 0 || x >= fieldSize || y < 0 || y >= fieldSize) {
             System.out.println("Каждая координата должна быть в диапазоне от 1 до " + fieldSize);
             return false;
@@ -202,7 +200,7 @@ public class TicTacToe {
     }
 
 
-    private static void printMap() {
+    private void printMap() {
         for (int i = 0; i <= fieldSize; i++) {
             System.out.print(i + " ");
         }
@@ -216,7 +214,7 @@ public class TicTacToe {
         }
     }
 
-    private static void initMap() {
+    private void initMap() {
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
                 playField[i][j] = emptyDot;
@@ -235,16 +233,16 @@ public class TicTacToe {
         return true;
     }
 
-    public static int getFieldSize() {
+    public int getFieldSize() {
         return fieldSize;
     }
 
-    public static void setFieldSize(int userFieldSize) {
+    public void setFieldSize(int userFieldSize) {
         fieldSize = userFieldSize;
         playField = new char[fieldSize][fieldSize];
     }
 
-    public static void setDotSymbols(char userDotSymbol) {
+    public void setDotSymbols(char userDotSymbol) {
         if (humanDot != userDotSymbol) {
             computerDot = humanDot;
             humanDot = userDotSymbol;

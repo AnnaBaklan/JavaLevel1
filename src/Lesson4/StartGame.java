@@ -6,7 +6,8 @@ public class StartGame {
     private static char humanDot = 'X';
 
     public static void main(String[] args) {
-        ParameterWindow parameterWindow = new ParameterWindow();
+        TicTacToe game = new TicTacToe();
+        ParameterWindow parameterWindow = new ParameterWindow(game);
     }
 
 
